@@ -35,9 +35,9 @@ it('should refresh the access token when expired', function () {
         'access_token' => 'c572c16299f42e07b03540d1d4410604f7e4471c7a30beeeaefa81972bc1c4ed',
     ]);
 
-    $refreshTokenGrant = mock(RefreshToken::class)->expect(
-        requestAccessToken: fn () => $refreshedToken
-    );
+    $refreshTokenGrant = Mockery::mock(RefreshToken::class);
+    $refreshTokenGrant->shouldReceive('requestAccessToken')
+        ->andReturn($refreshedToken);
 
     $plugin = setup_plugin($expiredToken, $refreshTokenGrant);
     $client = setup_client($this->mockClient, $plugin);
@@ -61,9 +61,9 @@ it('should refresh the access token when close to expiring', function () {
         'access_token' => 'c572c16299f42e07b03540d1d4410604f7e4471c7a30beeeaefa81972bc1c4ed',
     ]);
 
-    $refreshTokenGrant = mock(RefreshToken::class)->expect(
-        requestAccessToken: fn () => $refreshedToken
-    );
+    $refreshTokenGrant = Mockery::mock(RefreshToken::class);
+    $refreshTokenGrant->shouldReceive('requestAccessToken')
+        ->andReturn($refreshedToken);
 
     $plugin = setup_plugin($expiredToken, $refreshTokenGrant);
     $client = setup_client($this->mockClient, $plugin);
