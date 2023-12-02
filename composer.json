@@ -16,7 +16,7 @@
         "test": "pest --coverage"
     },
     "require": {
-        "php": "^8.1",
+        "php": "^8.2",
         "jwilsson/oauth2-client": "^3.0",
         "php-http/client-common": "^2.3",
         "php-http/message": "^1.11",

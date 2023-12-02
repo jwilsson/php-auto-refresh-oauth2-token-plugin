@@ -6,7 +6,7 @@
 A [HTTPlug plugin](https://docs.php-http.org/en/latest/plugins/introduction.html) to automatically refresh expired OAuth2 access tokens.
 
 ## Requirements
-* PHP 8.1 or later.
+* PHP 8.2 or later.
 * [jwilsson/oauth2-client](https://github.com/jwilsson/php-oauth2-client) library.
 
 ## Installation
