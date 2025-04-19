@@ -13,17 +13,44 @@ use Psr\Http\Message\RequestInterface;
 
 class AutoRefreshOAuth2TokenPlugin implements Plugin
 {
-    public function __construct(
-        protected Token $token,
-        protected RefreshToken $refreshTokenGrant,
-        protected array $options = [],
-        protected array $refreshTokenOptions = []
-    ) {
-        $defaults = [
-            'threshold' => 300, // 5 minutes
-        ];
+    /**
+     * @var Token
+     */
+    protected Token $token;
 
-        $this->options = array_replace_recursive($defaults, $options);
+    /**
+     * @var RefreshToken
+     */
+    protected RefreshToken $refreshTokenGrant;
+
+    /**
+     * @var Options
+     */
+    protected Options $options;
+
+    /**
+     * @var array<string, mixed>
+     */
+    protected array $refreshTokenOptions = [];
+
+    /**
+     * Constructor.
+     *
+     * @param Token $token The token to be refreshed.
+     * @param RefreshToken $refreshTokenGrant The refresh token grant.
+     * @param array<string, mixed> $options Optional. Options for the plugin.
+     * @param array<string, mixed> $refreshTokenOptions Optional. Options for the refresh token grant.
+     */
+    public function __construct(
+        Token $token,
+        RefreshToken $refreshTokenGrant,
+        array $options = [],
+        array $refreshTokenOptions = []
+    ) {
+        $this->token = $token;
+        $this->refreshTokenGrant = $refreshTokenGrant;
+        $this->options = new Options($options);
+        $this->refreshTokenOptions = $refreshTokenOptions;
     }
 
     /**
@@ -31,7 +58,7 @@ class AutoRefreshOAuth2TokenPlugin implements Plugin
      */
     protected function maybeRefreshToken(): void
     {
-        $expires = $this->token->getExpires() - (int) $this->options['threshold'];
+        $expires = $this->token->getExpires() - $this->options->threshold;
 
         if (time() >= $expires) {
             $this->token = $this->refreshTokenGrant->requestAccessToken(
