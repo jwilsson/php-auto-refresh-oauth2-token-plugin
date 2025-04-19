@@ -27,7 +27,7 @@
         "friendsofphp/php-cs-fixer": "^3.4",
         "mockery/mockery": "^1.4",
         "nyholm/psr7": "^1.4",
-        "pestphp/pest": "^2.0",
+        "pestphp/pest": "^3.8",
         "php-coveralls/php-coveralls": "^2.0",
         "php-http/mock-client": "^1.5",
         "phpstan/phpstan": "^1.3"
