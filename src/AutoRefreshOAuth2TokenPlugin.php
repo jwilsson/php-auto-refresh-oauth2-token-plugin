@@ -24,9 +24,9 @@ class AutoRefreshOAuth2TokenPlugin implements Plugin
     protected RefreshToken $refreshTokenGrant;
 
     /**
-     * @var Options
+     * @var array<string, mixed>
      */
-    protected Options $options;
+    protected array $options;
 
     /**
      * @var array<string, mixed>
@@ -47,9 +47,13 @@ class AutoRefreshOAuth2TokenPlugin implements Plugin
         array $options = [],
         array $refreshTokenOptions = []
     ) {
+        $defaults = [
+            'threshold' => 300, // 5 minutes
+        ];
+
         $this->token = $token;
         $this->refreshTokenGrant = $refreshTokenGrant;
-        $this->options = new Options($options);
+        $this->options = array_replace_recursive($defaults, $options);
         $this->refreshTokenOptions = $refreshTokenOptions;
     }
 
@@ -58,7 +62,7 @@ class AutoRefreshOAuth2TokenPlugin implements Plugin
      */
     protected function maybeRefreshToken(): void
     {
-        $expires = $this->token->getExpires() - $this->options->threshold;
+        $expires = $this->token->getExpires() - (int) $this->options['threshold'];
 
         if (time() >= $expires) {
             $this->token = $this->refreshTokenGrant->requestAccessToken(
