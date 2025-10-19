@@ -18,11 +18,11 @@ it('should add an access token to requests', function () {
     $client = setup_client($this->mockClient, $plugin);
 
     $client->sendRequest(
-        create_request()
+        create_request(),
     );
 
     expect(
-        $this->mockClient->getLastRequest()->getHeaderLine('Authorization')
+        $this->mockClient->getLastRequest()->getHeaderLine('Authorization'),
     )->toContain($token->getAccessToken());
 });
 
@@ -43,12 +43,12 @@ it('should refresh the access token when expired', function () {
     $client = setup_client($this->mockClient, $plugin);
 
     $client->sendRequest(
-        create_request()
+        create_request(),
     );
 
     expect($plugin->getToken())->toBe($refreshedToken);
     expect(
-        $this->mockClient->getLastRequest()->getHeaderLine('Authorization')
+        $this->mockClient->getLastRequest()->getHeaderLine('Authorization'),
     )->toContain($refreshedToken->getAccessToken());
 });
 
@@ -69,12 +69,12 @@ it('should refresh the access token when close to expiring', function () {
     $client = setup_client($this->mockClient, $plugin);
 
     $client->sendRequest(
-        create_request()
+        create_request(),
     );
 
     expect($plugin->getToken())->toBe($refreshedToken);
     expect(
-        $this->mockClient->getLastRequest()->getHeaderLine('Authorization')
+        $this->mockClient->getLastRequest()->getHeaderLine('Authorization'),
     )->toContain($refreshedToken->getAccessToken());
 });
 
@@ -86,7 +86,7 @@ it('should not refresh the access token when not expired', function () {
     $client = setup_client($this->mockClient, $plugin);
 
     $client->sendRequest(
-        create_request()
+        create_request(),
     );
 
     $refreshTokenGrant->shouldNotHaveReceived('requestAccessToken');

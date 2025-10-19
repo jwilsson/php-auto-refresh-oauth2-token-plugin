@@ -45,7 +45,7 @@ class AutoRefreshOAuth2TokenPlugin implements Plugin
         Token $token,
         RefreshToken $refreshTokenGrant,
         array $options = [],
-        array $refreshTokenOptions = []
+        array $refreshTokenOptions = [],
     ) {
         $defaults = [
             'threshold' => 300, // 5 minutes
@@ -67,7 +67,7 @@ class AutoRefreshOAuth2TokenPlugin implements Plugin
         if (time() >= $expires) {
             $this->token = $this->refreshTokenGrant->requestAccessToken(
                 $this->token->getRefreshToken(),
-                $this->refreshTokenOptions
+                $this->refreshTokenOptions,
             );
         }
     }
@@ -88,11 +88,11 @@ class AutoRefreshOAuth2TokenPlugin implements Plugin
         $this->maybeRefreshToken();
 
         $bearer = new Bearer(
-            $this->token->getAccessToken()
+            $this->token->getAccessToken(),
         );
 
         return $next(
-            $bearer->authenticate($request)
+            $bearer->authenticate($request),
         );
     }
 }
